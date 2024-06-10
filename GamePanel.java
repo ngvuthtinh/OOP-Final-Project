@@ -41,7 +41,7 @@ public class GamePanel extends JPanel {
     public void setVelocityY(int velocityY) {
         this.velocityY = velocityY;
     }
-    double gravity = 1;
+    int gravity = 1;
 
     //game loop
     Timer gameLoop;
@@ -132,17 +132,17 @@ public class GamePanel extends JPanel {
             pipe.setX(pipe.getX() + VelocityX); // move pipes to the left
             if (!pipe.isPassed() && bird.getX() > pipe.getX() + pipe.getWidth()) {
                 pipe.setPassed(true);
-                playMusic.playSound("Res/getpoint.wav");
+                playMusic.playMusic("Sources/getpoint.wav");
                 score += 0.5; // because there are 2 pipes! so 0.5*2 = 1, 1 for each set of pipes
             }
             if (collision(bird, pipe)) {
-                playMusic.playSound("Res/Die.wav");
+                playMusic.playMusic("Sources/Die.wav");
                 gameOver = true;
             }
         }
 
         if (bird.getY() > boardHeight) {
-            playMusic.playSound("Res/Die.wav");
+            playMusic.playMusic("Sources/Die.wav");
             gameOver = true;
         }
 
@@ -151,7 +151,7 @@ public class GamePanel extends JPanel {
     public boolean collision(Bird a, Pipe b) {
         boolean collision = a.getX() < b.getX() + b.getWidth() && a.getX() + a.getWidth() > b.getX() && a.getY() < b.getY() + b.getHeight() && a.getY() + a.getHeight() > b.getY();
         if (collision) {
-            playMusic.playSound("Res/Die.wav");
+            playMusic.playMusic("Sources/Die.wav");
         }
         return collision;    }
 

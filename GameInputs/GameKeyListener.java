@@ -25,7 +25,7 @@ public class GameKeyListener implements KeyListener, ActionListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             gamePanel.setVelocityY(-9);
-            playMusic.playSound("Res/Fly.wav");
+            playMusic.playMusic("Sources/Fly.wav");
             if(gamePanel.isGameOver()){
                 gamePanel.resetGame();
             }
