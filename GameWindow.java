@@ -18,7 +18,7 @@ public class GameWindow {
         frame.add(gamePanel);
         frame.pack();
         gamePanel.requestFocus();
-        playMusic.playMusic("Res/videoplayback.wav");
+        playMusic.playMusic("Sources/videoplayback.wav");
         frame.setVisible(true);
     }
 }
