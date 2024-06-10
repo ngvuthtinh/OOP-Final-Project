@@ -54,13 +54,13 @@ public class GamePanel extends JPanel {
         setPreferredSize((new Dimension(boardWidth, boardHeight)));
         setFocusable(true);
         //Timers
-        placePipesTimer = new Timer(1500, new ActionListener() {
+        placePipesTimer = new Timer(1100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 placePipes();
             }
         });
-        gameLoop = new Timer(1000 / 60, null);
+        gameLoop = new Timer(1000/60, null);
         //Inputs
         GameKeyListener gameKeyListener = new GameKeyListener(this, gameLoop, placePipesTimer);
         addKeyListener(gameKeyListener);
@@ -73,11 +73,7 @@ public class GamePanel extends JPanel {
         //bird
         bird = new Bird(birdX, birdY, birdWidth, birdHeight, birdImg);
         //pipes
-        pipes = new ArrayList<Pipe>();
-        // place pipes timer
-        placePipesTimer.start();
-        //game timer
-        gameLoop.start();
+        pipes = new ArrayList<>();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -97,9 +93,16 @@ public class GamePanel extends JPanel {
         }
         //score
         g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.PLAIN, 32));
-        if (gameOver) {
-            g.drawString("Game Over: " + String.valueOf((int) score), 10, 35);
+        g.setFont(new Font("Arial", Font.PLAIN, 40));
+        if(!gameLoop.isRunning() && !gameOver){
+            g.drawString("FLAPPY BIRD", 50, 240);
+            g.setFont(new Font("Arial", Font.PLAIN, 32));
+            g.drawString("Enter to Start", 80, 280);
+        }
+        else if (gameOver) {
+            g.setColor(Color.red);
+            g.drawString("Game Over: " + (int) score, 10, 35);
+            g.drawString("Space to Restart", 30, 640/2);
         } else {
             g.drawString(String.valueOf((int) score), 10, 35);
         }
@@ -107,7 +110,7 @@ public class GamePanel extends JPanel {
 
     public void placePipes() {
         int randomPipeY = (int) (pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2));
-        int openingSpace = boardHeight / 4;
+        int openingSpace = boardHeight / 5;
 
         Pipe topPipe = new Pipe(pipeX, randomPipeY, pipeWidth, pipeHeight, topPipeImg);
         topPipe.setY(randomPipeY);
@@ -136,13 +139,12 @@ public class GamePanel extends JPanel {
                 score += 0.5; // because there are 2 pipes! so 0.5*2 = 1, 1 for each set of pipes
             }
             if (collision(bird, pipe)) {
-                playMusic.playMusic("Sources/Die.wav");
                 gameOver = true;
             }
         }
 
         if (bird.getY() > boardHeight) {
-            playMusic.playMusic("Sources/Die.wav");
+            playMusic.playMusic("Sources/Death.wav");
             gameOver = true;
         }
 
@@ -151,9 +153,16 @@ public class GamePanel extends JPanel {
     public boolean collision(Bird a, Pipe b) {
         boolean collision = a.getX() < b.getX() + b.getWidth() && a.getX() + a.getWidth() > b.getX() && a.getY() < b.getY() + b.getHeight() && a.getY() + a.getHeight() > b.getY();
         if (collision) {
-            playMusic.playMusic("Sources/Die.wav");
+            playMusic.playMusic("Sources/Death.wav");
         }
-        return collision;    }
+        return collision;
+    }
+    public void startGame(){
+        // place pipes timer
+        placePipesTimer.start();
+        //game timer
+        gameLoop.start();
+    }
 
     public boolean isGameOver() {
         return gameOver;
@@ -166,7 +175,7 @@ public class GamePanel extends JPanel {
         gameOver = false;
         gameLoop.start();
         placePipesTimer.start();
-    }
 
+    }
 }
 
