@@ -1,5 +1,5 @@
 package Main;
-
+import Main.Music.playMusic;
 import javax.swing.*;
 
 public class GameWindow {
@@ -14,11 +14,11 @@ public class GameWindow {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         gamePanel = new GamePanel();
         frame.add(gamePanel);
         frame.pack();
         gamePanel.requestFocus();
+        playMusic.playMusic("Res/videoplayback.wav");
         frame.setVisible(true);
     }
 }
