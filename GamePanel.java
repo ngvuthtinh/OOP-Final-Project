@@ -41,7 +41,7 @@ public class GamePanel extends JPanel {
     public void setVelocityY(int velocityY) {
         this.velocityY = velocityY;
     }
-    double gravity = 1;
+    int gravity = 1;
 
     //game loop
     Timer gameLoop;
